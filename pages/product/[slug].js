@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { client, urlFor } from '../../lib/client';
 import { AiOutlineMinus, AiOutlinePlus, AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { Product } from '../../components';
+import { useStateContext } from '../../context/StateContext';
 
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price } = product;
   const [index, setIndex] = useState(0);
+  const { incrementQuantity, decrementQuantity, quantity, onAddProduct } = useStateContext()
 
   return (
     <div>
@@ -45,19 +47,19 @@ const ProductDetails = ({ product, products }) => {
           <div className='quantity'>
             <h3>Quantity:</h3>
             <p className='quantity-desc'>
-              <span className='minus' onClick=''>
+              <span className='minus' onClick={decrementQuantity}>
                 <AiOutlineMinus />
               </span>
-              <span className='num' onClick=''>
-                0
+              <span className='num' onClick="">
+                {quantity}
               </span>
-              <span className='plus' onClick=''>
+              <span className='plus' onClick={incrementQuantity}>
                 <AiOutlinePlus />
               </span>
             </p>
           </div>
           <div className='buttons'>
-            <button type='button' className='add-to-cart' onClick=''>Add to Cart</button>
+            <button type='button' className='add-to-cart' onClick={() => onAddProduct(product, quantity)}>Add to Cart</button>
             <button type='button' className='buy-now' onClick=''>Buy Now</button>
           </div>
         </div>
